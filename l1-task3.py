@@ -11,16 +11,13 @@
 Найдите другой способ найти количество нулей.
 '''
 
-import re
 
 def zeros(n):
-    factorial = 1
-    for i in range(2, n+1):
-        factorial *= i
-    str1 = str(factorial)
-    count = len(''.join(re.findall(r"[0]+$", str1)))
-    return count
-
+    num = 0
+    while n // 5 != 0:
+        num = num + n // 5
+        n = n // 5
+    return num
 
 if __name__ == '__main__':
     assert zeros(0) == 0
