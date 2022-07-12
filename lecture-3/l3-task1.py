@@ -1,13 +1,9 @@
 
 def my_cache(func):
-    '''
-    Функция my_cache внутри себя определяет функцию wrapper.
-    + создаем словарь для хранения кэша.
-    '''
+
     cache = dict()
 
     def wrapper(*args):
-        '''Функция wrapper проверяет наличие данных в кэше.'''
         result = func(*args)
         if args in cache:
             return cache[args]
