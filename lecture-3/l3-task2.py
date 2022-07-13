@@ -8,33 +8,34 @@ def options(call_count: int,
 
     def decorator(func):
 
-        def wrapper(*args, **kwargs):
+        def wrapper():
             print(f'Количество запросов = {call_count}\nНачало работы')
             t = start_sleep_time
-            for n in range(1, call_count + 1):
-                if t < border_sleep_time:
-                    time.sleep(t)
-                else:
-                    t = border_sleep_time
-                    time.sleep(t)
+            count = 0
+            for n in range(0, call_count):
                 
-                func_result = func(*args, **kwargs)
-                t *= 2 ** factor
-                print(f'Запуск номер {n}. Ожидание: {t} секунд. '
-                      f'Результат декорируемой функций = {func_result}.')
+                if t < border_sleep_time:
+                    t = start_sleep_time * factor ** n
+                if t > border_sleep_time:
+                    t = border_sleep_time
+                    
+                time.sleep(t)
+                count += 1
+                print(f'Запуск номер {count}. Ожидание: {t} секунд. '
+                      f'Результат декорируемой функций = {func()}.')
+            print('Конец работы')
 
-            print('Конец работы') 
-            return 
+            return
 
         return wrapper
 
     return decorator
 
 
-@options(call_count=3, start_sleep_time=2, factor=2, border_sleep_time=10)
-def check():
+@options(call_count=5, start_sleep_time=1, factor=2, border_sleep_time=20)
+def func_result():
     return 'ok'
 
 
 if __name__ == '__main__':
-    check()
+    func_result()
